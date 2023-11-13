@@ -12,6 +12,11 @@ load_dotenv()
 app.secret_key = os.getenv("SECRET_KEY") 
 openai.api_key = os.getenv("OPENAI_API_KEY") 
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+                               
 def name_grabber(days_elapsed):
     the_days_challenge = list_of_options[days_elapsed] 
     article_title = the_days_challenge[0]
@@ -115,6 +120,7 @@ def index():
     beegtitle = f"Promptle #{days_elapsed}"
     prev, num = highScoreChecker()
     article_title, article_subtitle, article_body = name_grabber(days_elapsed)
+    real_prompt = list_of_options[days_elapsed][2]
     if request.method == "POST":
         question = request.form["question"]
         question_adapted = prompt_engineering(days_elapsed, question)
@@ -156,7 +162,8 @@ def index():
 
     return render_template("index.html", 
                 title=article_title, subtitle=article_subtitle, body=article_body,
-                 result=result, loading=need_to_wait, prev=prev, num=num, BigTitle=beegtitle)
+                 result=result, loading=need_to_wait, prev=prev, num=num, BigTitle=beegtitle,
+                 truth = real_prompt)
 
 def generate_prompt(user, true):
     prompt = f"On a scale of 0 to 100, how similar is the piece of text '{user}' to '{true}'? Your response must be in the format of a single integer."

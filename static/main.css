@@ -15,15 +15,18 @@ body {
     padding-bottom: 60px;
     column-width: 375px;
     max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
+  
+  
 h1 {
     font-size: 50px;
-    font-weight: bold;
     color: #202123;
   }
 h2 {
-  font-weight: bold;
   line-height: 1;
+  color: #202123;
 }
 h3 {
     font-style: italic;

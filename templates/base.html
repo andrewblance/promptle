@@ -3,6 +3,7 @@
     <head>
       <title>Promptle</title>
       <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+      <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
       <script src="{{ url_for('static', filename='script.js') }}"></script>
     </head>
 
@@ -11,7 +12,7 @@
         <h1>{{ BigTitle }}</h1>
         Below is the name of a part of a Wikipedia article. 
         Every day, an AI will corrupt a new page.
-        What is the prompt used to create the today's version? 
+        What is the prompt used to corrupt the origianl article into what you see below? 
         <hr>
         <h2>{{ title }}</h2>
         <h3>{{ subtitle }}</h3>
@@ -53,11 +54,13 @@
             {% endif %}
             {% if session["scores"][2] %}
             <div class="block" data-status="{{ session['scores'][2][1] }}">{{ session["scores"][2][0] }}</div>
+            <p>The answer was: {{ truth }}</p>
             {% else %}
             <div class="block" data-status="waiting">Turn 3</div>
             
             {% endif %}
             <p>Your overall score for today is: {{ session["todays_avg"] }}</p>
+            
           {% else %}
           <div class="block" data-status="waiting">Turn 1</div>
           <div class="block" data-status="waiting">Turn 2</div>
