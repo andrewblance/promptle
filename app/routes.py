@@ -41,6 +41,8 @@ def initialiser():
     if 'history' not in session: session['history'] = []
     # last day played
     if 'lastday' not in session: session['lastday'] = days_since_epoch()
+    # tweet
+    if 'tweet' not in session: session['tweet'] = "hello world"
 
 def reseter():
     """
@@ -52,7 +54,7 @@ def reseter():
         session['scores'] = []
         session['oneGame'] = False
         session['lastday'] = days_since_epoch()
-
+        session['tweet'] = "hello world"
 
 def checkEndgame():
     print("Checking")
@@ -113,8 +115,6 @@ def index():
     article_title, article_subtitle, article_body = name_grabber(days_elapsed)
     if request.method == "POST":
         question = request.form["question"]
-        need_to_wait = True
-        print(need_to_wait)
         question_adapted = prompt_engineering(days_elapsed, question)
 
         client = openai.OpenAI()
@@ -137,8 +137,11 @@ def index():
         need_to_wait = False
         print(need_to_wait)
         addScore(response.choices[0].message.content)
-        #addScore(response)
-        
+        tweet_generator(beegtitle,
+                article_title, 
+                question, 
+                str(response.choices[0].message.content))
+
         return redirect(url_for("index"))
 
     result = [request.args.get("result")]
@@ -146,6 +149,9 @@ def index():
     checkEndgame()
     if session['endgame'] == True:
         endgamePrep()
+
+
+
     return render_template("index.html", 
                 title=article_title, subtitle=article_subtitle, body=article_body,
                  result=result, loading=need_to_wait, prev=prev, num=num, BigTitle=beegtitle)
@@ -159,6 +165,11 @@ def prompt_engineering(days_elapsed, question):
     prompt = generate_prompt(question, true_prompt)
     return prompt
 
+def tweet_generator(bigtitle, article_title, question, res):
+    tweet = bigtitle + ": " + article_title + " // One of my guesses was '"+ question + "' -  " + res + "%"
+    print(tweet)
+    session['tweet'] = tweet
+    return tweet
 
 def days_since_epoch():
     today = datetime.datetime.today()

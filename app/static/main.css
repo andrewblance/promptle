@@ -144,6 +144,11 @@ button:disabled:active {
   color: #38a1f3;
 }
 
+.tweet-text {
+  margin: 0;
+  font-size: 18px;
+}
+
 .delete-btn {
   width:100px;
   background-color: #f33838;
