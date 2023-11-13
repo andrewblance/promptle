@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+    <head>
+      <title>Promptle</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+      <script src="{{ url_for('static', filename='script.js') }}"></script>
+    </head>
+
+    <body>
+      <div class="container p-3"> 
+        <h1>{{ BigTitle }}</h1>
+        Below is the name of a part of a Wikipedia article. 
+        Every day, an AI will corrupt a new page.
+        What is the prompt used to create the today's version? 
+        <hr>
+        <h2>{{ title }}</h2>
+        <h3>{{ subtitle }}</h3>
+        <hr>
+        
+        {% for para in body %}
+            <p>{{ para }}</p>
+        {% endfor %}
+
+        {% block content %}{% endblock %}
+
+        <hr>
+        <div class="mb-3"> 
+          <form method="post" id="gpt-form" action="">                   
+            <label for="prompt" class="form-label"><h3>What prompt caused the change?</h3></label> 
+            <textarea class="form-control" type="textarea" name="question" id="question" rows="3"  maxlength="240"></textarea> 
+            <br> 
+            {% if session['endgame']%}
+            <button type="submit" disabled >Submit</button> 
+            {% else %}
+            <button type="submit"  >Submit</button>
+            {% endif %} 
+          </form> 
+        </div class="mb-3"> 
+
+        <br>
+
+        <hr>
+        <h3>Results</h3>
+
+        <div class="containerab">
+          {% if session["oneGame"] %}
+            <div class="block"data-status="{{ session['scores'][0][1] }}">{{ session["scores"][0][0] }}</div>
+            
+            {% if session["scores"][1] %}
+            <div class="block" data-status="{{ session['scores'][1][1] }}">{{ session["scores"][1][0] }}</div>
+            {% else %}
+            <div class="block" data-status="waiting">Turn 2</div>
+            {% endif %}
+            {% if session["scores"][2] %}
+            <div class="block" data-status="{{ session['scores'][2][1] }}">{{ session["scores"][2][0] }}</div>
+            {% else %}
+            <div class="block" data-status="waiting">Turn 3</div>
+            
+            {% endif %}
+            <p>Your overall score for today is: {{ session["todays_avg"] }}</p>
+          {% else %}
+          <div class="block" data-status="waiting">Turn 1</div>
+          <div class="block" data-status="waiting">Turn 2</div>
+          <div class="block" data-status="waiting">Turn 3</div>
+          {% endif %}
+        </div>
+
+        <br>
+        <hr>
+        <h3>History</h3>
+        <p>Your all time high score is: {{ prev }}</p>
+        <p>You have attemped to beat the computer {{num}} times</p>
+        
+        {% if session['endgame']%}
+        <hr>
+        <h3>Share</h3>
+        
+        <form>
+        <button
+            class="twitter-btn"
+            id="twitter"
+            title="Tweet this!"
+            onclick="tweetQuote()"
+          >Tweet
+        </button>
+        </form>
+        {% endif %} 
+
+        <hr>
+        <h3>The Danger Zone</h3>
+        Welcome to the danger zone. 
+        Here you can delete your user history.
+        If you press the button, theres no going back!
+        You will need to refresh afterwards for it to take effect.
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type=text/javascript>
+                $(function() {
+                  $('a#test').on('click', function(e) {
+                    e.preventDefault()
+                    $.getJSON('/background_process_test',
+                        function(data) {
+                      //do nothing
+                    });
+                    return false;
+                  });
+                });
+        </script>
+
+        <form>
+            <a href=# id=test><button class='delete-btn'>Delete!</button></a>
+        </form>
+
+          
+      </div class="container p-3"> 
+
+    </body>
+</html>
