@@ -3,11 +3,13 @@ import os
 import openai
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, session
-from app import app
-from app.data import list_of_options
+from static.data import list_of_options
 import datetime
 
+app = Flask(__name__)
+
 load_dotenv()
+app.secret_key = os.getenv("SECRET_KEY") 
 openai.api_key = os.getenv("OPENAI_API_KEY") 
 
 def name_grabber(days_elapsed):
@@ -184,3 +186,6 @@ def background_process_test():
     print("clearing session")
     session.clear()
     return ("nothing")
+
+if __name__ == '__main__':
+   app.run()
