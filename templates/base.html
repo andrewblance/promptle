@@ -45,15 +45,15 @@
 
         <div class="containerab">
           {% if session["oneGame"] %}
-            <div class="block"data-status="{{ session['scores'][0][1] }}">{{ session["scores"][0][0] }}</div>
+            <div class="block"data-status="{{ session['scores'][0][1] }}">{{ session["scores"][0][0] }}% Similar</div>
             
             {% if session["scores"][1] %}
-            <div class="block" data-status="{{ session['scores'][1][1] }}">{{ session["scores"][1][0] }}</div>
+            <div class="block" data-status="{{ session['scores'][1][1] }}">{{ session["scores"][1][0] }}% Similar</div>
             {% else %}
             <div class="block" data-status="waiting">Turn 2</div>
             {% endif %}
             {% if session["scores"][2] %}
-            <div class="block" data-status="{{ session['scores'][2][1] }}">{{ session["scores"][2][0] }}</div>
+            <div class="block" data-status="{{ session['scores'][2][1] }}">{{ session["scores"][2][0] }}% Similar</div>
             <p>The answer was: {{ truth }}</p>
             {% else %}
             <div class="block" data-status="waiting">Turn 3</div>
