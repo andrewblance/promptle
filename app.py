@@ -2,7 +2,7 @@ import os
 
 import openai
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
 from static.data import list_of_options
 import datetime
 
@@ -16,7 +16,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
-                               
+
 def name_grabber(days_elapsed):
     the_days_challenge = list_of_options[days_elapsed] 
     article_title = the_days_challenge[0]
