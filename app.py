@@ -146,7 +146,7 @@ def index():
         print(need_to_wait)
         addScore(response.choices[0].message.content)
         tweet_generator(beegtitle,
-                article_title, 
+                article_title+article_subtitle, 
                 question, 
                 str(response.choices[0].message.content))
 
@@ -166,7 +166,7 @@ def index():
                  truth = real_prompt)
 
 def generate_prompt(user, true):
-    prompt = f"On a scale of 0 to 100, how similar is the piece of text '{user}' to '{true}'? Your response must be in the format of a single integer."
+    prompt = f"On a scale of 0 to 100, how similar is the sentence '{user}' to '{true}'? Your response must be in the format of a single integer."
     return prompt
 
 def prompt_engineering(days_elapsed, question):
