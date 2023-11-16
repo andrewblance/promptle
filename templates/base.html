@@ -29,9 +29,9 @@
       <div class="container p-3"> 
         <h1>{{ BigTitle }}</h1>
         Every day, a new Wikipedia article is chosen.
-        Below is the name of it. 
         An AI will then be prompted to place a lie into the article.
         What is the lie/prompt used to turn the original article into what you see below? 
+        How good are <em>you</em> at telling when an AI is saying something untrustworthy?
         <hr>
         <h2>{{ title }}</h2>
         <h3>{{ subtitle }}</h3>
@@ -61,6 +61,8 @@
 
         <hr>
         <h3>Results</h3>
+        These numbers come from sending your guess to ChatGPT and asking how similar it is to the lie the AI has been asked to tell.
+        <br>
 
         <div class="containerab">
           {% if session["oneGame"] %}
